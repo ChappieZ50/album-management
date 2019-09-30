@@ -1,0 +1,21 @@
+{
+  "name": "chappie/album-management",
+  "type": "library",
+  "authors": [
+    {
+      "name": "ChappieZ50",
+      "email": "ugurtosun50@gmail.com"
+    }
+  ],
+
+  "require": {
+    "ext-pdo": "*",
+    "samayo/bulletproof": "4.0.*",
+    "larapack/dd": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}
