@@ -11,11 +11,15 @@
   "require": {
     "ext-pdo": "*",
     "samayo/bulletproof": "4.0.*",
-    "larapack/dd": "^1.1"
+    "larapack/dd": "^1.1",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
       "App\\": "app/"
-    }
+    },
+    "files": [
+      "app/helper.php"
+    ]
   }
 }

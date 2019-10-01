@@ -6,13 +6,6 @@ namespace App\Albums;
 interface AlbumInterface
 {
     /**
-     * AlbumInterface constructor.
-     * @param $db
-     * @param $table
-     */
-    public function __construct(\PDO $db,$table);
-
-    /**
      * @param array $data
      * @return mixed
      */
@@ -26,9 +19,14 @@ interface AlbumInterface
     public function update(int $id, array $data);
 
     /**
-     * @param $ids
+     * @param mixed ...$id
      * @return mixed
      */
-    public function destroy($ids);
+    public function destroy(...$id);
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function existsAlbum($id);
 }
