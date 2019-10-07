@@ -24,9 +24,5 @@ interface AlbumInterface
      */
     public function destroy(...$id);
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function existsAlbum($id);
+
 }

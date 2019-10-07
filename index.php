@@ -5,7 +5,7 @@ require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Albums\Album;
-use App\Images\Pictures;
+use App\Pictures\Pictures;
 $album = new Album($db, 'rix_albums');
 /*dd($album->create([
     'title' => 'Media',
@@ -18,3 +18,4 @@ $album = new Album($db, 'rix_albums');
 //dd($album->destroy());
 
 $picture = new Pictures($db,'rix_pictures','rix_albums');
+dd($picture->destroy(5,6));

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Images;
+namespace App\Pictures;
 
 
 use App\Albums\Album;
@@ -34,14 +34,14 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
      */
     public function create(array $data, $id)
     {
-        $readableDate = isset($data['readable_date']) ? $data['readable_date'] : $this->readableDate;
 
         $prepare = $this->db->prepare("INSERT INTO $this->table SET album_id = :album_id, title = :title ,info = :info , readable_date = :readable_date");
 
-        $prepare->bindParam(':album_id', $id);
-        $prepare->bindParam(':title', $data['title']);
-        $prepare->bindParam(':info', json_encode($data['info']));
-        $prepare->bindParam(':readable_date', $readableDate);
+
+        $prepare->bindValue(':album_id', $id);
+        $prepare->bindValue(':title', $data['title']);
+        $prepare->bindValue(':info', json_encode($data['info']));
+        $prepare->bindValue(':readable_date', isset($data['readable_date']) ? $data['readable_date'] : $this->readableDate);
 
         $execute = $prepare->execute();
         return $execute;
@@ -55,11 +55,12 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
 
     public function update(int $id, array $data)
     {
-        $prepare = $this->db->prepare("UPDATE $this->table SET title = :title ,slug = :slug   WHERE album_id = :album_id ");
+        $prepare = $this->db->prepare("UPDATE $this->table SET title = COALESCE(NULLIF(:title, ''),title), info = COALESCE(NULLIF(:info, ''),info)   WHERE picture_id = :picture_id ");
 
-        $prepare->bindParam(':title', $data['title']);
-        $prepare->bindParam(':slug', $data['slug']);
-        $prepare->bindParam(':album_id', $id);
+        $prepare->bindValue(':title', isset($data['title']) ? $data['title'] : null);
+        $prepare->bindValue(':info', isset($data['info']) ? json_encode($data['info']) : null);
+        $prepare->bindValue(':picture_id', $id);
+
 
         $execute = $prepare->execute();
         return $execute;
@@ -73,7 +74,7 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
     public function destroy(...$id)
     {
         $ids = implode(',', $id);
-        $prepare = $this->db->prepare("DELETE FROM $this->table WHERE album_id IN ($ids)");
+        $prepare = $this->db->prepare("DELETE FROM $this->table WHERE picture_id IN ($ids)");
         $execute = $prepare->execute();
         return $execute;
     }
@@ -98,7 +99,7 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
     public function existsAlbum($id = null, $slug = null)
     {
         $prepare = $this->db->prepare("SELECT count(*) as count FROM $this->albumTable WHERE " . $id !== null ? "album_id = :value" : "slug = :value");
-        $prepare->bindParam(':value', $value);
+        $prepare->bindValue(':value', $id !== null ? $id : $slug);
         $prepare->execute();
         $count = $prepare->rowCount();
         return $count > 0 ?? true;

@@ -14,12 +14,10 @@ class Album extends DatabaseAbstract implements AlbumInterface
      */
     public function create(array $data)
     {
-        $readableDate = isset($data['readable_date']) ? $data['readable_date'] : $this->readableDate;
-
         $prepare = $this->db->prepare("INSERT INTO $this->table SET title = :title ,slug = :slug , readable_date = :readable_date");
-        $prepare->bindParam(':title', $data['title']);
-        $prepare->bindParam(':slug', $data['slug']);
-        $prepare->bindParam(':readable_date', $readableDate);
+        $prepare->bindValue(':title', $data['title']);
+        $prepare->bindValue(':slug', $data['slug']);
+        $prepare->bindValue(':readable_date', isset($data['readable_date']) ? $data['readable_date'] : $this->readableDate);
 
         $execute = $prepare->execute();
         return $execute;
@@ -35,9 +33,9 @@ class Album extends DatabaseAbstract implements AlbumInterface
     {
         $prepare = $this->db->prepare("UPDATE $this->table SET title = :title ,slug = :slug   WHERE album_id = :album_id ");
 
-        $prepare->bindParam(':title', $data['title']);
-        $prepare->bindParam(':slug', $data['slug']);
-        $prepare->bindParam(':album_id', $id);
+        $prepare->bindValue(':title', $data['title']);
+        $prepare->bindValue(':slug', $data['slug']);
+        $prepare->bindValue(':album_id', $id);
 
         $execute = $prepare->execute();
         return $execute;
@@ -56,9 +54,5 @@ class Album extends DatabaseAbstract implements AlbumInterface
         return $execute;
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function existsAlbum($id){}
+
 }

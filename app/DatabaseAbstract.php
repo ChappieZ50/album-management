@@ -33,7 +33,7 @@ abstract class DatabaseAbstract
      * @param \PDO $db
      * @param $table
      */
-    public  function __construct(\PDO $db, $table)
+    public function __construct(\PDO $db, $table)
     {
         $this->readableDate = readableDate();
         $this->db = $db;
