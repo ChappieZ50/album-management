@@ -5,6 +5,9 @@ namespace App\Albums;
 
 interface AlbumInterface
 {
+
+    public function get(string $sql = null);
+
     /**
      * @param array $data
      * @return mixed

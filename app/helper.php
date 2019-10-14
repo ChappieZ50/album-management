@@ -1,12 +1,12 @@
 <?php
 
-if (!function_exists('readableDate')) {
+if (!function_exists('readable_date')) {
     /**
      * @param array $options ['date_format','lang']
      * @return false|mixed|string
      */
 
-    function readableDate($options = [])
+    function readable_date($options = [])
     {
         /**
          * @var $date_format

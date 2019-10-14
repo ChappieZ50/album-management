@@ -7,7 +7,6 @@
       "email": "ugurtosun50@gmail.com"
     }
   ],
-
   "require": {
     "ext-pdo": "*",
     "samayo/bulletproof": "4.0.*",

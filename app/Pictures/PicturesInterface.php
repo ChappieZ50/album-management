@@ -5,7 +5,7 @@ namespace App\Pictures;
 
 interface PicturesInterface
 {
-    public function __construct(\PDO $db, $table, $albumTable);
+    public function __construct(\PDO $db);
 
     public function create(array $data, int $id);
 

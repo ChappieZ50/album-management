@@ -18,26 +18,14 @@ abstract class DatabaseAbstract
     protected $table;
 
     /**
-     * If you are using seconds or millisecond it will be wrong.
-     * Because we define this variable in construct and when we use
-     * class construct then will be get date info.
-     * If you don't want use $this->readableDate then you can post date in data array. ['readable_date' => 'value']
-     *
-     * @var string
-     *
+     * @var false|mixed|string
      */
     protected $readableDate;
 
-    /**
-     * DatabaseAbstract constructor.
-     * @param \PDO $db
-     * @param $table
-     */
-    public function __construct(\PDO $db, $table)
+    public function __construct(\PDO $db)
     {
-        $this->readableDate = readableDate();
+        $this->readableDate = readable_date();
         $this->db = $db;
-        $this->table = $table;
     }
 
 }

@@ -14,16 +14,18 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
      * @var string
      */
     protected $default = 'uncategorized';
-
     /**
      * @var string
      */
-    protected $albumTable;
+    protected $table = PICTURE_TABLE;
+    /**
+     * @var string
+     */
+    protected $albumTable = ALBUM_TABLE;
 
-    public function __construct(\PDO $db, $table, $albumTable)
+    public function __construct(\PDO $db)
     {
-        $this->albumTable = $albumTable;
-        parent::__construct($db, $table);
+        parent::__construct($db);
         $this->defaultRecord();
     }
 
@@ -41,7 +43,7 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
         $prepare->bindValue(':album_id', $id);
         $prepare->bindValue(':title', $data['title']);
         $prepare->bindValue(':info', json_encode($data['info']));
-        $prepare->bindValue(':readable_date', isset($data['readable_date']) ? $data['readable_date'] : $this->readableDate);
+        $prepare->bindValue(':readable_date', $this->readableDate);
 
         $execute = $prepare->execute();
         return $execute;
@@ -82,7 +84,7 @@ class Pictures extends DatabaseAbstract implements PicturesInterface
     public function defaultRecord()
     {
         if (!$this->existsAlbum(null, $this->default)) {
-            $album = new Album($this->db, $this->albumTable);
+            $album = new Album($this->db);
             return $album->create([
                     'title' => $this->default,
                     'slug'  => $this->default
